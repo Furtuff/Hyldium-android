@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.tuff.hyldium.R;
 
-public class WorkActivity extends AppCompatActivity {
+public class OrderActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
