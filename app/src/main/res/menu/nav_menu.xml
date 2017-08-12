@@ -6,16 +6,43 @@
             android:icon="@mipmap/ic_launcher"
             android:title="Commander" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_delivery"
             android:icon="@mipmap/ic_launcher"
-            android:title="Ma situation" />
+            android:title="Recupérer" />
+
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_manage_header"
             android:icon="@mipmap/ic_launcher"
-            android:title="Ma checklist" />
-        <item
-            android:id="@+id/nav_manage"
-            android:icon="@mipmap/ic_launcher"
-            android:title="Mon pays d'accueil" />
+            android:title="Gérer">
+            <item
+                android:id="@+id/nav_manage"
+                android:checkable="false"
+                android:icon="@mipmap/ic_launcher"
+                android:title="Gérer">
+
+            </item>
+            <menu>
+                <group
+                    android:id="@+id/nav_manage_group"
+                    android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/nav_users"
+                        android:icon="@mipmap/ic_launcher"
+                        android:title="Membres"></item>
+                    <item
+                        android:id="@+id/nav_manage_order"
+                        android:icon="@mipmap/ic_launcher"
+                        android:title="Commandes"></item>
+                    <item
+                        android:id="@+id/nav_manage_delivery"
+                        android:icon="@mipmap/ic_launcher"
+                        android:title="Livraisons"></item>
+                    <item
+                        android:id="@+id/nav_bill"
+                        android:icon="@mipmap/ic_launcher"
+                        android:title="Factures"></item>
+                </group>
+            </menu>
+        </item>
     </group>
 </menu>

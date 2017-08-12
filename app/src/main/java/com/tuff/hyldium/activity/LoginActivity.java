@@ -32,7 +32,6 @@ public class LoginActivity extends AppCompatActivity {
         //no action bar
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_login);
         this.btn_login = (Button) findViewById(R.id.btn_login);
         this.textEmailAddress = (EditText) findViewById(R.id.input_user_name);
@@ -100,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginSuccess() {
         btn_login.setEnabled(true);
         finish();
-        Intent intent = new Intent(this, UserOrderActivity.class);
+        Intent intent = new Intent(this, SUActivity.class);
         startActivity(intent);
     }
 
