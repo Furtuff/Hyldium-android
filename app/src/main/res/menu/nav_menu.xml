@@ -26,7 +26,7 @@
                     android:id="@+id/nav_manage_group"
                     android:checkableBehavior="single">
                     <item
-                        android:id="@+id/nav_users"
+                        android:id="@+id/nav_manage_users"
                         android:icon="@mipmap/ic_launcher"
                         android:title="Membres"></item>
                     <item
@@ -38,7 +38,7 @@
                         android:icon="@mipmap/ic_launcher"
                         android:title="Livraisons"></item>
                     <item
-                        android:id="@+id/nav_bill"
+                        android:id="@+id/nav_manage_bill"
                         android:icon="@mipmap/ic_launcher"
                         android:title="Factures"></item>
                 </group>

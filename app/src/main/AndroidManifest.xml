@@ -18,9 +18,6 @@
         </activity>
         <activity android:name=".activity.SplashScreen" />
         <activity android:name=".activity.SUActivity" />
-        <activity android:name=".activity.OrderActivity" />
-        <activity android:name=".activity.ProfileActivity" />
-        <activity android:name=".activity.UserOrderActivity"></activity>
     </application>
 
 </manifest>

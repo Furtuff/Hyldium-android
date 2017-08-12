@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuff.hyldium.R;
+import com.tuff.hyldium.fragment_callback.UserList;
 import com.tuff.hyldium.model.UserModel;
 import com.tuff.hyldium.utils.Utils;
 
@@ -29,8 +30,22 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_user_list, parent, false);
-        return new UserViewHolder(itemView);
+                .inflate(R.layout.fragment_user_list_item, parent, false);
+        final UserViewHolder result = new UserViewHolder(itemView);
+        result.erase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((UserList) view.getContext()).deleteUser(userList.get(result.getAdapterPosition()));
+            }
+        });
+        result.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((UserList) view.getContext()).editUser(userList.get(result.getAdapterPosition()));
+            }
+        });
+
+        return result;
     }
 
     @Override
@@ -54,6 +69,11 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.UserVi
         } else {
             return 0;
         }
+    }
+
+    public void setUserList(List<UserModel> userList) {
+        this.userList = userList;
+        notifyDataSetChanged();
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {

@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,12 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tuff.hyldium.R;
-import com.tuff.hyldium.fragment.UserListFragment;
-import com.tuff.hyldium.model.UserModel;
 import com.tuff.hyldium.utils.Constant;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by tuffery on 22/07/17.
@@ -33,6 +26,7 @@ public abstract class MenuActivity extends AppCompatActivity {
     protected NavigationView navigationView;
     protected DrawerLayout drawerLayout;
     protected ActionBarDrawerToggle mActionBarDrawerToggle;
+    protected int selectedItem;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +58,15 @@ public abstract class MenuActivity extends AppCompatActivity {
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         hideManageSubMenu();
+        menuListener(savedInstanceState);
+    }
+
+    protected void menuListener(final Bundle savedInstancestate) {
+        if (savedInstancestate != null) {
+            if (savedInstancestate.getInt(Constant.SELECTED_ITEM) != 0) {
+                navigationView.setCheckedItem(savedInstancestate.getInt(Constant.SELECTED_ITEM));
+            }
+        }
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -74,33 +77,32 @@ public abstract class MenuActivity extends AppCompatActivity {
                         navigationView.getMenu().getItem(i).setChecked(false);
                     }
                 } else if (menuItem.getItemId() == R.id.nav_order || menuItem.getItemId() == R.id.nav_delivery) {
+                    switch (menuItem.getItemId()) {
+                        case R.id.nav_order:
+                            orderSelected();
+                            break;
+                        case R.id.nav_delivery:
+                            deliverySelected();
+                            break;
+                    }
                     hideManageSubMenu();
                     drawerLayout.closeDrawers();
 
                 } else {
-                    switch (menuItem.getItemId()) {
-                        case R.id.nav_users:
-                            List<UserModel> list = new ArrayList<UserModel>();
-                            for (int i = 0; i < 10; i++) {
-                                UserModel prout = new UserModel();
-                                prout.name = "prout" + String.valueOf(i);
-                                prout.createdDate = Long.valueOf(i);
-                                list.add(prout);
-                            }
-                            UserListFragment userListFragment = new UserListFragment();
-                            userListFragment.setArguments(UserListFragment.extraUserList(list));
-                            FragmentManager fm = getSupportFragmentManager();
-                            FragmentTransaction ft = fm.beginTransaction();
-                            ft.add(R.id.firstContainer, userListFragment, Constant.USER_LIST_FRAGMENT);
-                            ft.commit();
-                    }
+                    manageSelected(menuItem.getItemId());
                     drawerLayout.closeDrawers();
                 }
+                selectedItem = menuItem.getItemId();
                 return false;
             }
         });
     }
 
+    protected abstract void orderSelected();
+
+    protected abstract void deliverySelected();
+
+    protected abstract void manageSelected(int itemId);
     private void hideManageSubMenu() {
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
@@ -119,6 +121,12 @@ public abstract class MenuActivity extends AppCompatActivity {
         }
     }
     public abstract int setContentLayout();
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Constant.SELECTED_ITEM, selectedItem);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public void onBackPressed() {
