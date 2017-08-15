@@ -1,6 +1,5 @@
 package com.tuff.hyldium.fragment;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -32,11 +31,6 @@ public class UserListFragment extends android.support.v4.app.Fragment {
         return bundle;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -50,18 +44,18 @@ public class UserListFragment extends android.support.v4.app.Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
-        addUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((UserList) view.getContext()).addUser();
-            }
-        });
         List<UserModel> users = (List<UserModel>) bundle.getSerializable(USERS);
         if (users != null) {
             UserListAdapter userListAdapter = new UserListAdapter(users);
             usersRecycler.setAdapter(userListAdapter);
 
         }
+        addUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((UserList) view.getContext()).addUser();
+            }
+        });
     }
 
     public void refreshList(List<UserModel> users) {

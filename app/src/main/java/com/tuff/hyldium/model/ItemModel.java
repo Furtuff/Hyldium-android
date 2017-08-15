@@ -1,10 +1,12 @@
 package com.tuff.hyldium.model;
 
+import java.io.Serializable;
+
 /**
  * Created by tuffery on 22/07/17.
  */
 
-public class ItemModel {
+public class ItemModel implements Serializable {
     public long id;
     public long date;
     public String reference;
@@ -14,6 +16,6 @@ public class ItemModel {
     public float byBundle;
     public float TVA;
     public String label;
-    public Byte[] photo;
+    public byte[] photo;
     public String barCode;
 }
