@@ -55,6 +55,9 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVH
         if (item.name != null) {
             holder.name.setText(item.name);
         }
+        if (item.reference != null) {
+            holder.ref.setText(item.reference);
+        }
         if (item.byBundle != 0) {
             holder.byBundle.setText(String.valueOf(item.byBundle));
         }
@@ -86,8 +89,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVH
         public ItemVH(View itemView) {
             super(itemView);
             root = (ConstraintLayout) itemView.findViewById(R.id.itemListRoot);
-            price = (TextView) itemView.findViewById(R.id.price);
-            ref = (TextView) itemView.findViewById(R.id.reference);
+            price = (TextView) itemView.findViewById(R.id.priceHTtxt);
+            ref = (TextView) itemView.findViewById(R.id.referencetxt);
             name = (TextView) itemView.findViewById(R.id.itemName);
             byBundle = (TextView) itemView.findViewById(R.id.byBundle);
             photo = (ImageView) itemView.findViewById(R.id.itemImage);

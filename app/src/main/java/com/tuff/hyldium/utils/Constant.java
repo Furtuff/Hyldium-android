@@ -15,5 +15,6 @@ public class Constant {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     public static final String USER_LIST_FRAGMENT = "USER_LIST_FRAGMENT";
     public static final String ITEM_LIST_FRAGMENT = "ITEM_LIST_FRAGMENT";
+    public static final String ITEM_DETAIL_FRAGMENT = "ITEM_DETAIL_FRAGMENT";
 
 }

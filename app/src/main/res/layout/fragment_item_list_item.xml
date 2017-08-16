@@ -15,14 +15,13 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toTopOf="@+id/reftxt"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toRightOf="@+id/itemImage"
         app:layout_constraintRight_toLeftOf="@+id/pricetxt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/price"
+        android:id="@+id/priceHTtxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -44,12 +43,10 @@
         app:layout_constraintTop_toBottomOf="@+id/bybundletxt" />
 
     <TextView
-        android:id="@+id/reference"
+        android:id="@+id/referencetxt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="0dp"
         android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/itemImage"
@@ -78,7 +75,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/byBundle"
         app:layout_constraintLeft_toLeftOf="@+id/pricetxt"
-        app:layout_constraintTop_toBottomOf="@+id/price" />
+        app:layout_constraintTop_toBottomOf="@+id/priceHTtxt" />
 
     <TextView
         android:id="@+id/pricetxt"
@@ -88,7 +85,7 @@
         android:layout_marginRight="24dp"
         android:text="prix :"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/price"
+        app:layout_constraintBottom_toTopOf="@+id/priceHTtxt"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -96,11 +93,10 @@
         android:id="@+id/reftxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
         android:text="référence :"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/reference"
-        app:layout_constraintLeft_toRightOf="@+id/itemImage"
+        app:layout_constraintBottom_toTopOf="@+id/referencetxt"
+        app:layout_constraintLeft_toLeftOf="@+id/itemName"
         app:layout_constraintTop_toBottomOf="@+id/itemName" />
 
 </android.support.constraint.ConstraintLayout>

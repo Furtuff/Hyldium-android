@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.tuff.hyldium.R;
+import com.tuff.hyldium.fragment.ItemDetailFragment;
 import com.tuff.hyldium.fragment.ItemListFragment;
 import com.tuff.hyldium.fragment.UserListFragment;
 import com.tuff.hyldium.fragment_callback.ItemList;
@@ -40,7 +41,7 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
         for (int i = 0; i < 10; i++) {
             ItemModel prout = new ItemModel();
             prout.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
-            prout.reference = "zrfz65454sf" + i;
+            prout.reference = "cacacacacacaca" + i;
             prout.price = 4894.22;
             prout.byBundle = 12;
             items.add(prout);
@@ -112,7 +113,13 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
 
     @Override
     public void itemSelected(ItemModel selectedItem) {
-
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ItemDetailFragment itemDetailFragment = new ItemDetailFragment();
+        itemDetailFragment.setArguments(ItemDetailFragment.extraItem(selectedItem));
+        ft.replace(R.id.firstContainer, itemDetailFragment, Constant.ITEM_DETAIL_FRAGMENT);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
