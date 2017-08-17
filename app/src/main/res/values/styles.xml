@@ -30,4 +30,11 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
+
+    <style name="button_order" parent="Base.Widget.AppCompat.ImageButton">
+        <item name="android:src">@android:drawable/ic_media_play</item>
+        <item name="backgroundTint">@android:color/holo_green_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
 </resources>

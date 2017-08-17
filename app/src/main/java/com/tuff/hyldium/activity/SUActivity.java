@@ -78,7 +78,7 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
                     userListFragment.setArguments(UserListFragment.extraUserList(list));
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.add(R.id.firstContainer, userListFragment, Constant.USER_LIST_FRAGMENT);
+                    ft.replace(R.id.firstContainer, userListFragment, Constant.USER_LIST_FRAGMENT);
                     ft.addToBackStack(null);
                     ft.commit();
                 }

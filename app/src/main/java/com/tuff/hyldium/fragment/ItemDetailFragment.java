@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
+import com.nightonke.boommenu.BoomMenuButton;
 import com.tuff.hyldium.R;
+import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.model.ItemModel;
+import com.tuff.hyldium.model.UserItemOrderModel;
 
 import java.io.Serializable;
 
@@ -22,10 +27,13 @@ import java.io.Serializable;
 
 public class ItemDetailFragment extends Fragment {
     public static final String ITEM = "ITEM";
+    BoomMenuButton bmb;
     private TextView price, TVA, name, reference, priceHT, byBundle, label, barCode;
     private EditText selection;
     private ImageView itemPhoto;
+    private ImageButton orderItem;
     private double bundlePart;
+    private ItemModel item;
 
     public static Bundle extraItem(ItemModel item) {
         Bundle bundle = new Bundle();
@@ -48,6 +56,8 @@ public class ItemDetailFragment extends Fragment {
         barCode = (TextView) view.findViewById(R.id.barcode);
         selection = (EditText) view.findViewById(R.id.bundlePart);
         itemPhoto = (ImageView) view.findViewById(R.id.itemImage);
+        bmb = (BoomMenuButton) view.findViewById(R.id.moreOptions);
+        orderItem = (ImageButton) view.findViewById(R.id.orderItem);
         return view;
     }
 
@@ -56,9 +66,23 @@ public class ItemDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         Bundle bundle = getArguments();
         if (bundle != null) {
-            ItemModel item = (ItemModel) bundle.getSerializable(ITEM);
+            item = (ItemModel) bundle.getSerializable(ITEM);
             if (item.photo != null) {
                 itemPhoto.setImageBitmap(BitmapFactory.decodeByteArray(item.photo, 0, item.photo.length));
+                itemPhoto.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        takePhoto();
+                        return false;
+                    }
+                });
+            } else {
+                itemPhoto.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        takePhoto();
+                    }
+                });
             }
 
             name.setText(item.name);
@@ -75,6 +99,20 @@ public class ItemDetailFragment extends Fragment {
             priceHT.setText(String.valueOf(item.priceHT));
 
         }
+        TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
+                .normalImageRes(android.R.drawable.ic_menu_edit)
+                .normalText("edit");
+        bmb.addBuilder(builder);
+        orderItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                UserItemOrderModel userItemOrderModel = new UserItemOrderModel(0, 0, item.id, Float.valueOf(selection.getText().toString()));
+                ((ItemDetails) getContext()).orderUserItem(userItemOrderModel);
+            }
+        });
+    }
 
+    private void takePhoto() {
+        //Todo
     }
 }

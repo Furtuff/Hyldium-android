@@ -6,4 +6,11 @@ package com.tuff.hyldium.model;
 
 public class UserItemOrderModel extends UserItemModel {
     public long orderId;
+
+    public UserItemOrderModel(long orderId, long userId, long itemId, float bundlePart) {
+        this.orderId = orderId;
+        this.userId = userId;
+        this.itemId = itemId;
+        this.bundlePart = bundlePart;
+    }
 }
