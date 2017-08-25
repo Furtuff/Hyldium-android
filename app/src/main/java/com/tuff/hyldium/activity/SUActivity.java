@@ -8,17 +8,19 @@ import android.view.View;
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.fragment.ItemDetailFragment;
 import com.tuff.hyldium.fragment.ItemListFragment;
-import com.tuff.hyldium.fragment.UserListFragment;
+import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.fragment_callback.ItemList;
 import com.tuff.hyldium.fragment_callback.UserList;
+import com.tuff.hyldium.fragment_callback.UserOrder;
 import com.tuff.hyldium.model.ItemModel;
+import com.tuff.hyldium.model.UserItemOrderModel;
 import com.tuff.hyldium.model.UserModel;
 import com.tuff.hyldium.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SUActivity extends MenuActivity implements UserList, ItemList {
+public class SUActivity extends MenuActivity implements UserList, ItemList, ItemDetails, UserOrder {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,11 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
         }
     }
 
+    @Override
+    protected void userPofileSelected() {
+
+    }
+
 
     @Override
     protected void orderSelected() {
@@ -39,19 +46,15 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
         FragmentTransaction ft = fm.beginTransaction();
         List<ItemModel> items = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ItemModel prout = new ItemModel();
-            prout.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
-            prout.reference = "cacacacacacaca" + i;
-            prout.price = 4894.22;
-            prout.byBundle = 12;
-            items.add(prout);
+            ItemModel test = new ItemModel();
+            test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
+            test.reference = "testetets" + i;
+            test.price = 4894.22;
+            test.byBundle = 12;
+            items.add(test);
         }
         itemListFragment.setArguments(ItemListFragment.extraItemList(items));
-        if (getSupportFragmentManager().getFragments() != null) {
-            ft.replace(R.id.firstContainer, itemListFragment, Constant.ITEM_LIST_FRAGMENT);
-        } else {
-            ft.add(R.id.firstContainer, itemListFragment, Constant.ITEM_LIST_FRAGMENT);
-        }
+        ft.replace(R.id.firstContainer, itemListFragment, Constant.ITEM_LIST_FRAGMENT);
         ft.addToBackStack(null);
         ft.commit();
 
@@ -62,7 +65,7 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
 
     }
 
-    @Override
+    /*@Override
     protected void manageSelected(int itemId) {
         switch (itemId) {
             case R.id.nav_manage_users:
@@ -70,7 +73,7 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
                     List<UserModel> list = new ArrayList<UserModel>();
                     for (int i = 0; i < 10; i++) {
                         UserModel prout = new UserModel();
-                        prout.name = "prout" + String.valueOf(i);
+                        prout.firstName = "blob" + String.valueOf(i);
                         prout.createdDate = Long.valueOf(i);
                         list.add(prout);
                     }
@@ -84,7 +87,7 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
                 }
                 break;
         }
-    }
+    }*/
 
     @Override
     public int setContentLayout() {
@@ -129,6 +132,26 @@ public class SUActivity extends MenuActivity implements UserList, ItemList {
 
     @Override
     public void onePanelUserOrder() {
+
+    }
+
+    @Override
+    public void editItem(ItemModel editedItem) {
+
+    }
+
+    @Override
+    public void orderUserItem(UserItemOrderModel orderedItem) {
+
+    }
+
+    @Override
+    public void editOrdered(ItemModel itemOrdered) {
+
+    }
+
+    @Override
+    public void deleteOrdered(ItemModel itemKilled) {
 
     }
 }

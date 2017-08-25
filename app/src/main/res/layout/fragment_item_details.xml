@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:text="-"
-            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintBottom_toTopOf="@+id/referencetxt"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemImage" />
+            app:layout_constraintTop_toBottomOf="@+id/itemImage"
+            app:layout_constraintVertical_chainStyle="packed" />
 
         <ImageView
             android:id="@+id/itemImage"
@@ -29,20 +29,21 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/name"
+            app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside"
             app:srcCompat="@android:drawable/ic_menu_camera" />
 
         <TextView
             android:id="@+id/referencetxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="reference :"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/reference"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/name" />
@@ -51,74 +52,42 @@
             android:id="@+id/reference"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="7dp"
             android:text="-"
-            app:layout_constraintHorizontal_bias="0.492"
+            app:layout_constraintBottom_toTopOf="@+id/selectiontxt"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/referencetxt" />
 
-        <TextView
-            android:id="@+id/barcodetxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Code barre :"
-            android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/price" />
-
-        <TextView
-            android:id="@+id/barcode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            android:text="-"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barcodetxt" />
 
         <TextView
             android:id="@+id/byBundletxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:text="par lot :"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/reference"
-            app:layout_constraintTop_toBottomOf="@+id/reference" />
+            android:textStyle="bold"
+            app:layout_constraintRight_toLeftOf="@+id/selectiontxt"
+            app:layout_constraintTop_toTopOf="@+id/selectiontxt" />
 
         <TextView
-            android:id="@+id/byBundle"
+            android:id="@+id/ordered"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
             android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="@+id/bundlePart"
             app:layout_constraintLeft_toLeftOf="@+id/byBundletxt"
-            app:layout_constraintTop_toBottomOf="@+id/byBundletxt" />
+            app:layout_constraintTop_toTopOf="@+id/bundlePart"
+            app:layout_constraintVertical_bias="0.529" />
 
         <TextView
             android:id="@+id/TVAtxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="6dp"
             android:text="TVA :"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintBottom_toTopOf="@+id/TVA"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/label" />
@@ -127,10 +96,8 @@
             android:id="@+id/TVA"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="-"
+            app:layout_constraintBottom_toTopOf="@+id/priceHTtxt"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TVAtxt" />
@@ -139,23 +106,19 @@
             android:id="@+id/labletxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
             android:text="label :"
             android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/label"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/byBundle" />
+            app:layout_constraintTop_toBottomOf="@+id/bundlePart" />
 
         <TextView
             android:id="@+id/label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="-"
+            app:layout_constraintBottom_toTopOf="@+id/TVAtxt"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/labletxt" />
@@ -164,26 +127,22 @@
             android:id="@+id/priceHTtxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:text="prix HT :"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintBottom_toTopOf="@+id/priceHT"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/TVA" />
+            app:layout_constraintTop_toBottomOf="@+id/TVA"
+            tools:layout_editor_absoluteY="283dp" />
 
         <TextView
             android:id="@+id/pricetxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="prix :"
             android:textStyle="bold"
-            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintBottom_toTopOf="@+id/price"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priceHT" />
@@ -192,39 +151,32 @@
             android:id="@+id/selectiontxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="0dp"
             android:text="selection :"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintLeft_toRightOf="@+id/byBundletxt"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/bundlePart"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/reference" />
 
         <EditText
             android:id="@+id/bundlePart"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="8dp"
             android:hint="0"
             android:inputType="numberDecimal"
             app:layout_constraintBottom_toTopOf="@+id/labletxt"
-            app:layout_constraintLeft_toLeftOf="@+id/selectiontxt"
-            app:layout_constraintRight_toRightOf="@+id/selectiontxt"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/selectiontxt" />
 
         <TextView
             android:id="@+id/priceHT"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="5dp"
+            android:layout_height="wrap_content"
             android:text="-"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintBottom_toTopOf="@+id/pricetxt"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/priceHTtxt" />
@@ -233,10 +185,9 @@
             android:id="@+id/price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:text="-"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/pricetxt" />
@@ -244,26 +195,15 @@
         <ImageButton
             android:id="@+id/orderItem"
             style="@style/button_order"
-            android:layout_marginLeft="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            app:layout_constraintLeft_toRightOf="@+id/selectiontxt"
+            app:layout_constraintLeft_toRightOf="@+id/bundlePart"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/bundlePart" />
 
-        <com.nightonke.boommenu.BoomMenuButton
-            android:id="@+id/moreOptions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="0dp"
-            app:bmb_buttonEnum="textOutsideCircle"
-            app:bmb_buttonPlaceEnum="buttonPlace_sc_1"
-            app:bmb_piecePlaceEnum="piecePlace_dot_1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/barcode">
 
-        </com.nightonke.boommenu.BoomMenuButton>
 
 
     </android.support.constraint.ConstraintLayout>

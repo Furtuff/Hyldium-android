@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tuff.hyldium.R;
-import com.tuff.hyldium.adapter.UserListAdapter;
 import com.tuff.hyldium.fragment_callback.UserList;
 import com.tuff.hyldium.model.UserModel;
 

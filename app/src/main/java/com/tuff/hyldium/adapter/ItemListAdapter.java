@@ -92,7 +92,7 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVH
             price = (TextView) itemView.findViewById(R.id.priceHTtxt);
             ref = (TextView) itemView.findViewById(R.id.referencetxt);
             name = (TextView) itemView.findViewById(R.id.itemName);
-            byBundle = (TextView) itemView.findViewById(R.id.byBundle);
+            byBundle = (TextView) itemView.findViewById(R.id.ordered);
             photo = (ImageView) itemView.findViewById(R.id.itemImage);
         }
     }

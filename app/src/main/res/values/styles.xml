@@ -17,6 +17,12 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="button_edit_floating" parent="Widget.Design.FloatingActionButton">
+        <item name="android:src">@android:drawable/ic_menu_edit</item>
+        <item name="backgroundTint">@android:color/holo_blue_bright</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
     <style name="button_edit" parent="Widget.Design.FloatingActionButton">
         <item name="android:src">@android:drawable/ic_menu_edit</item>
         <item name="backgroundTint">@android:color/holo_blue_bright</item>
@@ -24,6 +30,12 @@
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="button_delete_floating" parent="Widget.Design.FloatingActionButton">
+        <item name="android:src">@android:drawable/ic_menu_delete</item>
+        <item name="backgroundTint">@android:color/holo_red_light</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
     <style name="button_delete" parent="Widget.Design.FloatingActionButton">
         <item name="android:src">@android:drawable/ic_menu_delete</item>
         <item name="backgroundTint">@android:color/holo_red_light</item>

@@ -4,45 +4,51 @@
         <item
             android:id="@+id/nav_order"
             android:icon="@mipmap/ic_launcher"
-            android:title="Commander" />
+            android:title="@string/order_menu_text" />
         <item
             android:id="@+id/nav_delivery"
             android:icon="@mipmap/ic_launcher"
-            android:title="Recupérer" />
-
+            android:title="@string/delivery_menu_text" />
         <item
-            android:id="@+id/nav_manage_header"
+            android:id="@+id/nav_user_profile"
             android:icon="@mipmap/ic_launcher"
-            android:title="Gérer">
-            <item
-                android:id="@+id/nav_manage"
-                android:checkable="false"
-                android:icon="@mipmap/ic_launcher"
-                android:title="Gérer">
+            android:title="@string/profile_menu_text">
 
-            </item>
-            <menu>
-                <group
-                    android:id="@+id/nav_manage_group"
-                    android:checkableBehavior="single">
-                    <item
-                        android:id="@+id/nav_manage_users"
-                        android:icon="@mipmap/ic_launcher"
-                        android:title="Membres"></item>
-                    <item
-                        android:id="@+id/nav_manage_order"
-                        android:icon="@mipmap/ic_launcher"
-                        android:title="Commandes"></item>
-                    <item
-                        android:id="@+id/nav_manage_delivery"
-                        android:icon="@mipmap/ic_launcher"
-                        android:title="Livraisons"></item>
-                    <item
-                        android:id="@+id/nav_manage_bill"
-                        android:icon="@mipmap/ic_launcher"
-                        android:title="Factures"></item>
-                </group>
-            </menu>
         </item>
+
+        <!--  <item
+              android:id="@+id/nav_manage_header"
+              android:icon="@mipmap/ic_launcher"
+              android:title="Gérer">
+              <item
+                  android:id="@+id/nav_manage"
+                  android:checkable="false"
+                  android:icon="@mipmap/ic_launcher"
+                  android:title="Gérer">
+
+              </item>
+              <menu>
+                  <group
+                      android:id="@+id/nav_manage_group"
+                      android:checkableBehavior="single">
+                      <item
+                          android:id="@+id/nav_manage_users"
+                          android:icon="@mipmap/ic_launcher"
+                          android:title="Membres"></item>
+                      <item
+                          android:id="@+id/nav_manage_order"
+                          android:icon="@mipmap/ic_launcher"
+                          android:title="Commandes"></item>
+                      <item
+                          android:id="@+id/nav_manage_delivery"
+                          android:icon="@mipmap/ic_launcher"
+                          android:title="Livraisons"></item>
+                      <item
+                          android:id="@+id/nav_manage_bill"
+                          android:icon="@mipmap/ic_launcher"
+                          android:title="Factures"></item>
+                  </group>
+              </menu>
+          </item>-->
     </group>
 </menu>

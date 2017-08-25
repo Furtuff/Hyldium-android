@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Hyldium</string>
     <string name="my_order">Ma Commande</string>
+    <string name="order_menu_text">Commander</string>
+    <string name="delivery_menu_text">Recupérer</string>
+    <string name="profile_menu_text">Profil</string>
 </resources>

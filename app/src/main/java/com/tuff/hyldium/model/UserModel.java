@@ -9,7 +9,8 @@ import java.io.Serializable;
 public class UserModel implements Serializable {
 
     public long id;
-    public String name;
+    public String firstName;
+    public String lastName;
     public byte[] password;
     public byte[] photo;
     public long createdDate;

@@ -12,14 +12,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
-import com.nightonke.boommenu.BoomMenuButton;
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.model.UserItemOrderModel;
-
-import java.io.Serializable;
 
 /**
  * Created by tuffery on 15/08/17.
@@ -27,8 +23,7 @@ import java.io.Serializable;
 
 public class ItemDetailFragment extends Fragment {
     public static final String ITEM = "ITEM";
-    BoomMenuButton bmb;
-    private TextView price, TVA, name, reference, priceHT, byBundle, label, barCode;
+    private TextView price, TVA, name, reference, priceHT, byBundle, label;
     private EditText selection;
     private ImageView itemPhoto;
     private ImageButton orderItem;
@@ -37,7 +32,7 @@ public class ItemDetailFragment extends Fragment {
 
     public static Bundle extraItem(ItemModel item) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ITEM, (Serializable) item);
+        bundle.putSerializable(ITEM, item);
         return bundle;
     }
 
@@ -51,12 +46,10 @@ public class ItemDetailFragment extends Fragment {
         name = (TextView) view.findViewById(R.id.name);
         reference = (TextView) view.findViewById(R.id.reference);
         priceHT = (TextView) view.findViewById(R.id.priceHT);
-        byBundle = (TextView) view.findViewById(R.id.byBundle);
+        byBundle = (TextView) view.findViewById(R.id.ordered);
         label = (TextView) view.findViewById(R.id.label);
-        barCode = (TextView) view.findViewById(R.id.barcode);
         selection = (EditText) view.findViewById(R.id.bundlePart);
         itemPhoto = (ImageView) view.findViewById(R.id.itemImage);
-        bmb = (BoomMenuButton) view.findViewById(R.id.moreOptions);
         orderItem = (ImageButton) view.findViewById(R.id.orderItem);
         return view;
     }
@@ -92,21 +85,19 @@ public class ItemDetailFragment extends Fragment {
             if (item.label != null) {
                 label.setText(item.label);
             }
-            if (item.barCode != null) {
-                barCode.setText(String.valueOf(item.barCode));
-            }
+
             price.setText(String.valueOf(item.price) + " €");
             priceHT.setText(String.valueOf(item.priceHT));
 
         }
-        TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
-                .normalImageRes(android.R.drawable.ic_menu_edit)
-                .normalText("edit");
-        bmb.addBuilder(builder);
         orderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UserItemOrderModel userItemOrderModel = new UserItemOrderModel(0, 0, item.id, Float.valueOf(selection.getText().toString()));
+                float typedValue = 0;
+                if (!selection.getText().toString().isEmpty()) {
+                    typedValue = Float.valueOf(selection.getText().toString());
+                }
+                UserItemOrderModel userItemOrderModel = new UserItemOrderModel(0, 0, item.id, typedValue);
                 ((ItemDetails) getContext()).orderUserItem(userItemOrderModel);
             }
         });

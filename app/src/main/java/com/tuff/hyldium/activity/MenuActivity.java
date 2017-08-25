@@ -9,7 +9,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +56,7 @@ public abstract class MenuActivity extends AppCompatActivity {
         }
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        hideManageSubMenu();
+        //hideManageSubMenu();
         menuListener(savedInstanceState);
     }
 
@@ -71,39 +70,33 @@ public abstract class MenuActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 navigationView.setCheckedItem(menuItem.getItemId());
-                if (menuItem.getItemId() == R.id.nav_manage) {
-                    showManageSubMenu();
-                    for (int i = 0; i < navigationView.getMenu().size(); i++) {
-                        navigationView.getMenu().getItem(i).setChecked(false);
-                    }
-                } else if (menuItem.getItemId() == R.id.nav_order || menuItem.getItemId() == R.id.nav_delivery) {
-                    switch (menuItem.getItemId()) {
+
+
+                switch (menuItem.getItemId()) {
                         case R.id.nav_order:
                             orderSelected();
                             break;
                         case R.id.nav_delivery:
                             deliverySelected();
                             break;
+                    case R.id.nav_user_profile:
+                        userPofileSelected();
                     }
-                    hideManageSubMenu();
-                    drawerLayout.closeDrawers();
-
-                } else {
-                    manageSelected(menuItem.getItemId());
-                    drawerLayout.closeDrawers();
-                }
                 selectedItem = menuItem.getItemId();
+                drawerLayout.closeDrawers();
                 return false;
             }
         });
     }
 
+    protected abstract void userPofileSelected();
+
     protected abstract void orderSelected();
 
     protected abstract void deliverySelected();
 
-    protected abstract void manageSelected(int itemId);
-    private void hideManageSubMenu() {
+    // protected abstract void manageSelected(int itemId);
+    /*private void hideManageSubMenu() {
         Menu menu = navigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
             if (menu.getItem(i).hasSubMenu()) {
@@ -119,7 +112,7 @@ public abstract class MenuActivity extends AppCompatActivity {
                 menu.getItem(i).getSubMenu().setGroupVisible(R.id.nav_manage_group, true);
             }
         }
-    }
+    }*/
     public abstract int setContentLayout();
 
     @Override
