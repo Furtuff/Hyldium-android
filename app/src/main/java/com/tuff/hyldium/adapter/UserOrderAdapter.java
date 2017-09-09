@@ -66,8 +66,8 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
             price = (TextView) itemView.findViewById(R.id.price);
             ordered = (TextView) itemView.findViewById(R.id.ordered);
             photo = (ImageView) itemView.findViewById(R.id.itemImage);
-            edit = (ImageButton) itemView.findViewById(R.id.edit);
-            delete = (ImageButton) itemView.findViewById(R.id.delete);
+            edit = (ImageButton) itemView.findViewById(R.id.editOrdered);
+            delete = (ImageButton) itemView.findViewById(R.id.deleteOrdered);
         }
     }
 }

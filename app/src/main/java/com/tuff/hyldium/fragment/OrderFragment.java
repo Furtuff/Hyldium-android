@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.adapter.UserOrderAdapter;
 import com.tuff.hyldium.model.ItemModel;
+import com.tuff.hyldium.utils.Constant;
 
 import java.io.Serializable;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * Created by tuffery on 22/07/17.
  */
 
-public class OrderFragment extends android.support.v4.app.Fragment {
+public class OrderFragment extends PriorFragment {
     private final static String USER_ORDER = "USER_ORDER";
     private RecyclerView recycleOrder;
 
@@ -44,5 +45,10 @@ public class OrderFragment extends android.support.v4.app.Fragment {
             recycleOrder.setAdapter(new UserOrderAdapter(itemsOrdered));
 
         }
+    }
+
+    @Override
+    public int getPriority() {
+        return Constant.SECONDCONTAINER_PRIORITY;
     }
 }

@@ -15,6 +15,7 @@ import com.tuff.hyldium.R;
 import com.tuff.hyldium.adapter.ItemListAdapter;
 import com.tuff.hyldium.fragment_callback.ItemList;
 import com.tuff.hyldium.model.ItemModel;
+import com.tuff.hyldium.utils.Constant;
 
 import java.io.Serializable;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.List;
  * Created by tuffery on 22/07/17.
  */
 
-public class ItemListFragment extends android.support.v4.app.Fragment {
+public class ItemListFragment extends PriorFragment {
     private static final String ITEMS = "ITEMS";
     private RecyclerView itemRecycler;
     private BoomMenuButton bmb;
@@ -71,4 +72,10 @@ public class ItemListFragment extends android.support.v4.app.Fragment {
         }
 
     }
+
+    @Override
+    public int getPriority() {
+        return Constant.FIRSTCONTAINER_PRIORITY;
+    }
+
 }

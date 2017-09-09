@@ -11,13 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tuff.hyldium.R;
+import com.tuff.hyldium.fragment_callback.UserProfile;
 import com.tuff.hyldium.model.UserModel;
+import com.tuff.hyldium.utils.Constant;
 
 /**
  * Created by tuffery on 22/07/17.
  */
 
-public class UserProfileFragment extends android.support.v4.app.Fragment {
+public class UserProfileFragment extends PriorFragment {
     public static final String USER_DETAILS = "USER_DETAILS";
     private TextView firstName, lastName;
     private Button changePassword, disconnect;
@@ -32,12 +34,12 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View userProfileView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_user_profile, container);
+        View userProfileView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_user_profile, container, false);
         firstName = (TextView) userProfileView.findViewById(R.id.firstName);
         lastName = (TextView) userProfileView.findViewById(R.id.lastName);
         changePassword = (Button) userProfileView.findViewById(R.id.changePassword);
         disconnect = (Button) userProfileView.findViewById(R.id.disconnect);
-
+        photo = (ImageView) userProfileView.findViewById(R.id.userPhoto);
         return userProfileView;
     }
 
@@ -62,10 +64,15 @@ public class UserProfileFragment extends android.support.v4.app.Fragment {
             disconnect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Todo disconnect
+                    ((UserProfile) view.getContext()).disconnect();
                 }
             });
         }
 
+    }
+
+    @Override
+    public int getPriority() {
+        return Constant.FIRSTCONTAINER_PRIORITY;
     }
 }

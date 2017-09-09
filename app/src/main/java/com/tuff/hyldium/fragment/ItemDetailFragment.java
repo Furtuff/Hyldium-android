@@ -3,7 +3,6 @@ package com.tuff.hyldium.fragment;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,13 @@ import com.tuff.hyldium.R;
 import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.model.UserItemOrderModel;
+import com.tuff.hyldium.utils.Constant;
 
 /**
  * Created by tuffery on 15/08/17.
  */
 
-public class ItemDetailFragment extends Fragment {
+public class ItemDetailFragment extends PriorFragment {
     public static final String ITEM = "ITEM";
     private TextView price, TVA, name, reference, priceHT, byBundle, label;
     private EditText selection;
@@ -105,5 +105,10 @@ public class ItemDetailFragment extends Fragment {
 
     private void takePhoto() {
         //Todo
+    }
+
+    @Override
+    public int getPriority() {
+        return Constant.SECONDCONTAINER_PRIORITY;
     }
 }
