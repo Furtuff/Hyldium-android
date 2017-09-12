@@ -30,6 +30,7 @@ import java.util.Random;
 
 public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile {
     private static OrderFragment orderFragment;
+    private static String lastStackedFragmentType;
     private ProgressBar progressBar;
     private StateFragment stateFragment;
 
@@ -37,6 +38,15 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
+            @Override
+            public void onBackStackChanged() {
+                PriorFragment priorFragment = (PriorFragment) getSupportFragmentManager().findFragmentById(R.id.firstContainer);
+                if (priorFragment != null) {
+                    lastStackedFragmentType = priorFragment.getClass().getName();
+                }
+            }
+        });
 
         stateFragment = (StateFragment) getSupportFragmentManager().findFragmentByTag(Constant.STATE_FRAGMENT);
         if (stateFragment == null) {
@@ -176,8 +186,14 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         } else {
             ft.replace(R.id.firstContainer, fragment);
         }
-        // if (((PriorFragment)fm.getBackStackEntryAt(fm.getBackStackEntryCount())) instanceof fragment.getClass());
-        ft.addToBackStack(null);
+        if (fm.getBackStackEntryCount() > 0) {
+
+            if (!lastStackedFragmentType.equals(fragment.getClass().getName())) {
+                ft.addToBackStack(null);
+            }
+        } else {
+            ft.addToBackStack(null);
+        }
         ft.commit();
     }
 
