@@ -31,6 +31,9 @@ public abstract class MenuActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_bar_main);
+        if (savedInstanceState != null) {
+            selectedItem = savedInstanceState.getInt(Constant.SELECTED_ITEM);
+        }
         getLayoutInflater().inflate(setContentLayout(), (ViewGroup) findViewById(R.id.globalContainer));
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -71,6 +74,7 @@ public abstract class MenuActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 navigationView.setCheckedItem(menuItem.getItemId());
 
+                selectedItem = menuItem.getItemId();
 
                 switch (menuItem.getItemId()) {
                         case R.id.nav_order:
@@ -81,8 +85,8 @@ public abstract class MenuActivity extends AppCompatActivity {
                             break;
                     case R.id.nav_user_profile:
                         userPofileSelected();
+                        break;
                     }
-                selectedItem = menuItem.getItemId();
                 drawerLayout.closeDrawers();
                 return false;
             }

@@ -89,8 +89,8 @@ public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVH
         public ItemVH(View itemView) {
             super(itemView);
             root = (ConstraintLayout) itemView.findViewById(R.id.itemListRoot);
-            price = (TextView) itemView.findViewById(R.id.priceHTtxt);
-            ref = (TextView) itemView.findViewById(R.id.referencetxt);
+            price = (TextView) itemView.findViewById(R.id.price);
+            ref = (TextView) itemView.findViewById(R.id.reference);
             name = (TextView) itemView.findViewById(R.id.itemName);
             byBundle = (TextView) itemView.findViewById(R.id.ordered);
             photo = (ImageView) itemView.findViewById(R.id.itemImage);

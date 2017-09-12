@@ -3,9 +3,11 @@ package com.tuff.hyldium.fragment;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -101,6 +103,16 @@ public class ItemDetailFragment extends PriorFragment {
                 ((ItemDetails) getContext()).orderUserItem(userItemOrderModel);
             }
         });
+        selection.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_DONE) {
+                    orderItem.performClick();
+                }
+
+                return false;
+            }
+        });
     }
 
     private void takePhoto() {
@@ -109,6 +121,6 @@ public class ItemDetailFragment extends PriorFragment {
 
     @Override
     public int getPriority() {
-        return Constant.SECONDCONTAINER_PRIORITY;
+        return Constant.FIRSTCONTAINER_PRIORITY;
     }
 }

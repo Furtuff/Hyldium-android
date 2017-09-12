@@ -17,5 +17,6 @@ public class ItemModel implements Serializable {
     public float TVA;
     public String label;
     public byte[] photo;
+    public float ordered;
     public String barCode;
 }

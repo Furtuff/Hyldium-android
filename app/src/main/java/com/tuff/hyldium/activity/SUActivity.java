@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.fragment.ItemDetailFragment;
 import com.tuff.hyldium.fragment.ItemListFragment;
+import com.tuff.hyldium.fragment.OrderFragment;
 import com.tuff.hyldium.fragment.PriorFragment;
 import com.tuff.hyldium.fragment.StateFragment;
 import com.tuff.hyldium.fragment.UserProfileFragment;
@@ -24,8 +26,10 @@ import com.tuff.hyldium.utils.Constant;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile {
+    private static OrderFragment orderFragment;
     private ProgressBar progressBar;
     private StateFragment stateFragment;
 
@@ -43,7 +47,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             movingOnTwoPanel();
         } else {
             findViewById(R.id.secondContainer).setVisibility(View.GONE);
-            movingOnOnePanel();
+            //movingOnOnePanel();
         }
         stopProgressBar(null);
     }
@@ -108,7 +112,11 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
     @Override
     public void onePanelUserOrder() {
-
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.firstContainer, getOrderFragment(), Constant.USER_ORDER_FRAGMENT);
+        ft.addToBackStack(null);
+        ft.commit();
     }
 
     @Override
@@ -118,7 +126,11 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
     @Override
     public void orderUserItem(UserItemOrderModel orderedItem) {
+        if (orderedItem.bundlePart != 0) {
 
+        }
+        FragmentManager fm = getSupportFragmentManager();
+        fm.popBackStack();
     }
 
     @Override
@@ -155,6 +167,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         FragmentTransaction ft = fm.beginTransaction();
 
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
+            dualPanelManageSecond();
             if (fragment.getPriority() == Constant.SECONDCONTAINER_PRIORITY) {
                 ft.replace(R.id.secondContainer, fragment);
             } else {
@@ -163,6 +176,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         } else {
             ft.replace(R.id.firstContainer, fragment);
         }
+        // if (((PriorFragment)fm.getBackStackEntryAt(fm.getBackStackEntryCount())) instanceof fragment.getClass());
         ft.addToBackStack(null);
         ft.commit();
     }
@@ -179,14 +193,22 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
                 ft.addToBackStack(null);
                 ft.commit();
             } else {
-
+                dualPanelManageSecond();
 
             }
         }
 
     }
 
-    void movingOnOnePanel() {
+    private void dualPanelManageSecond() {
+        if (selectedItem == R.id.nav_order) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.secondContainer, getOrderFragment());
+            ft.commit();
+        }
+    }
+    /*void movingOnOnePanel() {
         FragmentManager fm = getSupportFragmentManager();
         PriorFragment priorFragment = (PriorFragment) fm.findFragmentById(R.id.secondContainer);
         if (priorFragment != null) {
@@ -197,6 +219,36 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             fm.executePendingTransactions();
             fm.beginTransaction().replace(R.id.firstContainer, priorFragment).addToBackStack(null).commit();
         }
+    }*/
+
+    private OrderFragment getOrderFragment() {
+        if (orderFragment == null) {
+            orderFragment = new OrderFragment();
+            List<ItemModel> items = new ArrayList<>();
+            for (int i = 0; i < 10; i++) {
+                ItemModel test = new ItemModel();
+                test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
+                test.reference = "testetets" + i;
+                test.price = 4894.22;
+                test.byBundle = 12;
+                test.ordered = new Random().nextInt() + 1;
+                items.add(test);
+            }
+            orderFragment.setArguments(OrderFragment.extraOrderedItemList(items));
+        }
+        return orderFragment;
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+                finish();
+            }
+
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
 }

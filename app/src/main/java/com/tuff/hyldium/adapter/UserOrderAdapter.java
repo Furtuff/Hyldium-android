@@ -1,5 +1,6 @@
 package com.tuff.hyldium.adapter;
 
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +37,19 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
 
     @Override
     public void onBindViewHolder(OrderedItemVH holder, int position) {
+        ItemModel item = orderedItems.get(position);
+        if (item.photo != null) {
+            holder.photo.setImageBitmap(BitmapFactory.decodeByteArray(item.photo, 0, item.photo.length));
+        }
 
+        if (item.name != null) {
+            holder.itemName.setText(item.name);
+        }
+        if (item.reference != null) {
+            holder.ref.setText(item.reference);
+        }
+        holder.ordered.setText(String.valueOf(item.ordered));
+        holder.price.setText(String.valueOf(item.price));
     }
 
     @Override
@@ -51,7 +64,12 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()) {
+            case R.id.deleteOrdered:
+                break;
+            case R.id.editOrdered:
+                break;
+        }
     }
 
     public static class OrderedItemVH extends RecyclerView.ViewHolder {

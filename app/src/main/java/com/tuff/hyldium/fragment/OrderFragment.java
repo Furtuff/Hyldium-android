@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class OrderFragment extends PriorFragment {
-    private final static String USER_ORDER = "USER_ORDER";
+    public final static String USER_ORDER = "USER_ORDER";
     private RecyclerView recycleOrder;
 
     public static Bundle extraOrderedItemList(List<ItemModel> itemList) {
@@ -40,10 +40,12 @@ public class OrderFragment extends PriorFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        List<ItemModel> itemsOrdered = (List<ItemModel>) getArguments().getSerializable(USER_ORDER);
-        if (itemsOrdered != null) {
-            recycleOrder.setAdapter(new UserOrderAdapter(itemsOrdered));
+        if (getArguments() != null) {
+            List<ItemModel> itemsOrdered = (List<ItemModel>) getArguments().getSerializable(USER_ORDER);
+            if (itemsOrdered != null) {
+                recycleOrder.setAdapter(new UserOrderAdapter(itemsOrdered));
 
+            }
         }
     }
 
