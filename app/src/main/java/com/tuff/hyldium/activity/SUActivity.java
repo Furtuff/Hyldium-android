@@ -6,14 +6,18 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.tuff.hyldium.R;
+import com.tuff.hyldium.contract.ICacheCallBack;
+import com.tuff.hyldium.factory.Factory;
 import com.tuff.hyldium.fragment.ItemDetailFragment;
 import com.tuff.hyldium.fragment.ItemListFragment;
 import com.tuff.hyldium.fragment.OrderFragment;
 import com.tuff.hyldium.fragment.PriorFragment;
-import com.tuff.hyldium.fragment.StateFragment;
 import com.tuff.hyldium.fragment.UserProfileFragment;
 import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.fragment_callback.ItemList;
@@ -28,16 +32,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile {
+public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile, ICacheCallBack {
     private static OrderFragment orderFragment;
     private static String lastStackedFragmentType;
     private ProgressBar progressBar;
-    private StateFragment stateFragment;
+    private Spinner userSpinner;
+    private TextView infoMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
+        userSpinner = (Spinner) findViewById(R.id.userName);
+        infoMessage = (TextView) findViewById(R.id.infoMessage);
+
+        ArrayAdapter<UserModel> userAdapter = new ArrayAdapter<UserModel>(this, android.R.layout.simple_spinner_item, Factory.build.getICache().getCurrentUsers());
+        userAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userSpinner.setAdapter(userAdapter);
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
@@ -48,10 +59,6 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             }
         });
 
-        stateFragment = (StateFragment) getSupportFragmentManager().findFragmentByTag(Constant.STATE_FRAGMENT);
-        if (stateFragment == null) {
-            getSupportFragmentManager().beginTransaction().add(new StateFragment(), Constant.STATE_FRAGMENT).commit();
-        }
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             findViewById(R.id.secondContainer).setVisibility(View.VISIBLE);
             movingOnTwoPanel();
@@ -62,14 +69,16 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         stopProgressBar(null);
     }
 
+
+    @Override
+    public int setContentLayout() {
+        return R.layout.activity_su;
+    }
+
     @Override
     protected void userPofileSelected() {
-        UserModel robert = new UserModel();
-        robert.firstName = "Glok";
-        robert.lastName = "Robert";
-        robert.createdDate = 1807878048;
         UserProfileFragment upf = new UserProfileFragment();
-        upf.setArguments(UserProfileFragment.extraItem(robert));
+        upf.setArguments(UserProfileFragment.extraItem((UserModel) userSpinner.getSelectedItem()));
         dispatchFragment(upf, Constant.USER_PROFILE_FRAGMENT);
 
     }
@@ -77,29 +86,13 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
     @Override
     protected void orderSelected() {
-        ItemListFragment itemListFragment = new ItemListFragment();
-        List<ItemModel> items = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            ItemModel test = new ItemModel();
-            test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
-            test.reference = "testetets" + i;
-            test.price = 4894.22;
-            test.byBundle = 12;
-            items.add(test);
-        }
-        itemListFragment.setArguments(ItemListFragment.extraItemList(items));
-        dispatchFragment(itemListFragment, Constant.ITEM_LIST_FRAGMENT);
+        Factory.build.getICache().getItemsList(this, null);
+        startProgressBar();
     }
 
     @Override
     protected void deliverySelected() {
 
-    }
-
-
-    @Override
-    public int setContentLayout() {
-        return R.layout.activity_su;
     }
 
 
@@ -165,11 +158,15 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
     }
 
     void startProgressBar() {
-
+        progressBar.setVisibility(View.VISIBLE);
+        infoMessage.setText(null);
     }
 
     void stopProgressBar(String errorMessage) {
         progressBar.setVisibility(View.GONE);
+        if (errorMessage != null) {
+            infoMessage.setText(errorMessage);
+        }
     }
 
     void dispatchFragment(PriorFragment fragment, String ref) {
@@ -224,18 +221,6 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             ft.commit();
         }
     }
-    /*void movingOnOnePanel() {
-        FragmentManager fm = getSupportFragmentManager();
-        PriorFragment priorFragment = (PriorFragment) fm.findFragmentById(R.id.secondContainer);
-        if (priorFragment != null) {
-            FragmentManager.BackStackEntry firstPriority = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
-            fm.popBackStackImmediate(firstPriority.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.remove(priorFragment).commit();
-            fm.executePendingTransactions();
-            fm.beginTransaction().replace(R.id.firstContainer, priorFragment).addToBackStack(null).commit();
-        }
-    }*/
 
     private OrderFragment getOrderFragment() {
         if (orderFragment == null) {
@@ -267,4 +252,11 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
     }
 
 
+    @Override
+    public void askedItemList(List<ItemModel> itemList) {
+        stopProgressBar(null);
+        ItemListFragment itemListFragment = new ItemListFragment();
+        itemListFragment.setArguments(ItemListFragment.extraItemList(itemList));
+        dispatchFragment(itemListFragment, Constant.ITEM_LIST_FRAGMENT);
+    }
 }

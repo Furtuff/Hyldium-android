@@ -13,6 +13,7 @@ import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.adapter.ItemListAdapter;
+import com.tuff.hyldium.factory.Factory;
 import com.tuff.hyldium.fragment_callback.ItemList;
 import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.utils.Constant;
@@ -70,7 +71,7 @@ public class ItemListFragment extends PriorFragment {
         if (items != null) {
             itemRecycler.setAdapter(new ItemListAdapter(items));
         }
-
+        Factory.build.getICache().searchItems(getContext(), "miel");
     }
 
     @Override

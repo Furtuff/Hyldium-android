@@ -15,4 +15,16 @@ public class UserModel implements Serializable {
     public byte[] photo;
     public long createdDate;
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (firstName != null) {
+            sb.append(firstName);
+        }
+        sb.append(" ");
+        if (lastName != null) {
+            sb.append(lastName);
+        }
+        return sb.toString();
+    }
 }
