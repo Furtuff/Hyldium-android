@@ -2,6 +2,7 @@ package com.tuff.hyldium.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
@@ -33,7 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile, ICacheCallBack {
-    private static OrderFragment orderFragment;
+    private static List<ItemModel> orderFragmentList;
     private static String lastStackedFragmentType;
     private ProgressBar progressBar;
     private Spinner userSpinner;
@@ -59,6 +60,14 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             }
         });
 
+
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        stopProgressBar(null);
+
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             findViewById(R.id.secondContainer).setVisibility(View.VISIBLE);
             movingOnTwoPanel();
@@ -66,9 +75,8 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             findViewById(R.id.secondContainer).setVisibility(View.GONE);
             //movingOnOnePanel();
         }
-        stopProgressBar(null);
-    }
 
+    }
 
     @Override
     public int setContentLayout() {
@@ -169,10 +177,11 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         }
     }
 
-    void dispatchFragment(PriorFragment fragment, String ref) {
+    void dispatchFragment(final PriorFragment fragment, String ref) {
+
+
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             dualPanelManageSecond();
             if (fragment.getPriority() == Constant.SECONDCONTAINER_PRIORITY) {
@@ -191,51 +200,72 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         } else {
             ft.addToBackStack(null);
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
+
+
     }
 
     void movingOnTwoPanel() {
-        FragmentManager fm = getSupportFragmentManager();
-        PriorFragment currentFragment = (PriorFragment) fm.findFragmentById(R.id.firstContainer);
-        if (currentFragment != null) {
-            if (currentFragment.getPriority() == Constant.SECONDCONTAINER_PRIORITY) {
-                FragmentManager.BackStackEntry firstPriority = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
-                fm.popBackStackImmediate(firstPriority.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.secondContainer, currentFragment);
-                ft.addToBackStack(null);
-                ft.commit();
-            } else {
-                dualPanelManageSecond();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                FragmentManager fm = getSupportFragmentManager();
+                PriorFragment currentFragment = (PriorFragment) fm.findFragmentById(R.id.firstContainer);
+                if (currentFragment != null) {
+                    if (currentFragment.getPriority() == Constant.SECONDCONTAINER_PRIORITY) {
+                        FragmentManager.BackStackEntry firstPriority = fm.getBackStackEntryAt(fm.getBackStackEntryCount() - 1);
+                        fm.popBackStackImmediate(firstPriority.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.replace(R.id.secondContainer, currentFragment);
+                        ft.addToBackStack(null);
+                        ft.commit();
+                    } else {
+                        dualPanelManageSecond();
 
+                    }
+                }
             }
-        }
+        });
+
 
     }
 
     private void dualPanelManageSecond() {
         if (selectedItem == R.id.nav_order) {
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.secondContainer, getOrderFragment());
-            ft.commit();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.replace(R.id.secondContainer, getOrderFragment());
+                    ft.commit();
+                }
+            });
+
         }
     }
 
     private OrderFragment getOrderFragment() {
+        OrderFragment orderFragment = (OrderFragment) getSupportFragmentManager().findFragmentByTag(Constant.USER_ORDER_FRAGMENT);
         if (orderFragment == null) {
             orderFragment = new OrderFragment();
-            List<ItemModel> items = new ArrayList<>();
-            for (int i = 0; i < 10; i++) {
-                ItemModel test = new ItemModel();
-                test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
-                test.reference = "testetets" + i;
-                test.price = 4894.22;
-                test.byBundle = 12;
-                test.ordered = new Random().nextInt() + 1;
-                items.add(test);
+            if (orderFragmentList == null) {
+                List<ItemModel> items = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    ItemModel test = new ItemModel();
+                    test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
+                    test.reference = "testetets" + i;
+                    test.price = 4894.22;
+                    test.byBundle = 12;
+                    test.ordered = new Random().nextInt() + 1;
+                    items.add(test);
             }
-            orderFragment.setArguments(OrderFragment.extraOrderedItemList(items));
+                orderFragment.setArguments(OrderFragment.extraOrderedItemList(items));
+
+            } else {
+                orderFragment.setArguments(OrderFragment.extraOrderedItemList(orderFragmentList));
+            }
+
         }
         return orderFragment;
     }

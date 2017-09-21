@@ -12,6 +12,7 @@ import com.tuff.hyldium.contract.IComCallback;
 import com.tuff.hyldium.factory.Factory;
 import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.model.UserModel;
+import com.tuff.hyldium.utils.Utils;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -74,7 +75,7 @@ public enum CacheManager implements ICache, IComCallback {
     }
 
     public void searchResult(List<ItemModel> items) {
-
+        ((ICacheCallBack) Utils.getActivity()).askedItemList(items);
         ItemModel popo = items.get(0);
     }
 
