@@ -46,4 +46,12 @@ public class ItemModel implements Serializable {
 
     public float ordered;
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ItemModel && obj != null) {
+            ItemModel objToCompare = (ItemModel) obj;
+            return this.reference.equals(objToCompare.reference);
+        }
+        return false;
+    }
 }

@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.adapter.UserOrderAdapter;
+import com.tuff.hyldium.factory.Factory;
 import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.utils.Constant;
 
@@ -21,7 +23,8 @@ import java.util.List;
 
 public class OrderFragment extends PriorFragment {
     public final static String USER_ORDER = "USER_ORDER";
-    private RecyclerView recycleOrder;
+    private RecyclerView recyclerOrder;
+    private TextView header;
 
     public static Bundle extraOrderedItemList(List<ItemModel> itemList) {
         Bundle bundle = new Bundle();
@@ -33,18 +36,37 @@ public class OrderFragment extends PriorFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_order_user, container, false);
-        recycleOrder = (RecyclerView) view.findViewById(R.id.recyclerOrder);
+        recyclerOrder = (RecyclerView) view.findViewById(R.id.recyclerOrder);
+        header = (TextView) view.findViewById(R.id.myOrderTxt);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            List<ItemModel> itemsOrdered = (List<ItemModel>) getArguments().getSerializable(USER_ORDER);
-            if (itemsOrdered != null) {
-                recycleOrder.setAdapter(new UserOrderAdapter(itemsOrdered));
+        List<ItemModel> itemsOrdered = null;
+        itemsOrdered = Factory.build.getICache().getCurrentOrder();
+        UserOrderAdapter adapter = new UserOrderAdapter(itemsOrdered);
+        recyclerOrder.setAdapter(adapter);
+        StringBuilder sb = new StringBuilder();
+        sb.append("MA COMMANDE : ").append(String.valueOf(adapter.countTotalPrice())).append(" €");
+        String headerTxt = sb.toString();
+        header.setText(headerTxt);
 
+    }
+
+    public void updateOrder(List<ItemModel> items) {
+        UserOrderAdapter adapter = null;
+        if (recyclerOrder != null && recyclerOrder.getAdapter() != null) {
+            adapter = (UserOrderAdapter) recyclerOrder.getAdapter();
+
+
+            if (adapter == null && items != null) {
+                adapter = new UserOrderAdapter(items);
+                recyclerOrder.setAdapter(adapter);
+            } else {
+                adapter.orderedItems = items;
+                adapter.notifyDataSetChanged();
             }
         }
     }

@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.tuff.hyldium.R;
 import com.tuff.hyldium.fragment_callback.ItemDetails;
 import com.tuff.hyldium.model.ItemModel;
-import com.tuff.hyldium.model.UserItemOrderModel;
 import com.tuff.hyldium.utils.Constant;
 
 /**
@@ -95,12 +94,10 @@ public class ItemDetailFragment extends PriorFragment {
         orderItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                float typedValue = 0;
                 if (!selection.getText().toString().isEmpty()) {
-                    typedValue = Float.valueOf(selection.getText().toString());
+                    item.ordered = Float.valueOf(selection.getText().toString());
                 }
-                UserItemOrderModel userItemOrderModel = new UserItemOrderModel(0, 0, item.id, typedValue);
-                ((ItemDetails) getContext()).orderUserItem(userItemOrderModel);
+                ((ItemDetails) getContext()).orderUserItem(item);
             }
         });
         selection.setOnEditorActionListener(new TextView.OnEditorActionListener() {

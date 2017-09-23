@@ -2,6 +2,7 @@ package com.tuff.hyldium.contract;
 
 import android.content.Context;
 
+import com.tuff.hyldium.model.ItemModel;
 import com.tuff.hyldium.model.UserModel;
 
 import java.util.List;
@@ -18,4 +19,9 @@ public interface ICache {
     void getItemsList(Context context, String search);
 
     void searchItems(Context context, String search);
+
+    List<ItemModel> getCurrentOrder();
+
+    void updateOrder(ItemModel itemModel);
+
 }

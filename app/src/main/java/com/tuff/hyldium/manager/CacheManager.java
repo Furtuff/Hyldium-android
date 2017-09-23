@@ -17,6 +17,7 @@ import com.tuff.hyldium.utils.Utils;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * Created by tuffery on 20/07/17.
@@ -26,7 +27,8 @@ public enum CacheManager implements ICache, IComCallback {
     instance;
 
 
-    private static List<UserModel> currentUsers;
+    private List<UserModel> currentUsers;
+    private List<ItemModel> currentOrder;
 
     public void getItemsList(final Context context, String search) {
         final List<ItemModel> items = new ArrayList<>();
@@ -49,7 +51,7 @@ public enum CacheManager implements ICache, IComCallback {
             public void run() {
                 ((ICacheCallBack) context).askedItemList(items);
             }
-        }, 2000);
+        }, 100);
 
     }
 
@@ -60,8 +62,6 @@ public enum CacheManager implements ICache, IComCallback {
 
     public List<UserModel> getCurrentUsers() {
         ArrayList<UserModel> list = new ArrayList<>();
-        list.add(new UserModel());
-        list.add(new UserModel());
         UserModel caca = new UserModel();
         caca.firstName = "yamina";
         caca.lastName = "caca";
@@ -75,7 +75,43 @@ public enum CacheManager implements ICache, IComCallback {
     }
 
     public void searchResult(List<ItemModel> items) {
-        ((ICacheCallBack) Utils.getActivity()).askedItemList(items);
+        try {
+            ((ICacheCallBack) Utils.getActivity()).askedItemList(items);
+
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<ItemModel> getCurrentOrder() {
+        return currentOrder;
+    }
+
+    @Override
+    public void updateOrder(ItemModel itemModel) {
+        if (currentOrder != null) {
+            ListIterator<ItemModel> i = currentOrder.listIterator();
+            while (i.hasNext()) {
+                ItemModel itemFromOrder = i.next();
+                if (itemFromOrder.equals(itemModel)) {
+                    if (itemModel.ordered <= 0.0) {
+                        i.remove();
+                    } else {
+                        i.set(itemModel);
+                    }
+                } else if (itemModel.ordered != 0.0) {
+
+                    currentOrder.add(itemModel);
+                }
+            }
+        } else {
+            currentOrder = new ArrayList<>();
+            if (itemModel.ordered != 0) {
+                currentOrder.add(itemModel);
+            }
+        }
+
     }
 
 }

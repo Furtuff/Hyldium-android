@@ -1,5 +1,6 @@
 package com.tuff.hyldium.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
@@ -25,16 +27,12 @@ import com.tuff.hyldium.fragment_callback.ItemList;
 import com.tuff.hyldium.fragment_callback.UserOrder;
 import com.tuff.hyldium.fragment_callback.UserProfile;
 import com.tuff.hyldium.model.ItemModel;
-import com.tuff.hyldium.model.UserItemOrderModel;
 import com.tuff.hyldium.model.UserModel;
 import com.tuff.hyldium.utils.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class SUActivity extends MenuActivity implements ItemList, ItemDetails, UserOrder, UserProfile, ICacheCallBack {
-    private static List<ItemModel> orderFragmentList;
     private static String lastStackedFragmentType;
     private ProgressBar progressBar;
     private Spinner userSpinner;
@@ -59,7 +57,6 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
                 }
             }
         });
-
 
     }
 
@@ -106,7 +103,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
     @Override
     public void itemSearch(String typedText) {
-
+        Factory.build.getIComm().searchItem(getApplicationContext(), typedText);
     }
 
     @Override
@@ -114,12 +111,9 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         ItemDetailFragment itemDetailFragment = new ItemDetailFragment();
         itemDetailFragment.setArguments(ItemDetailFragment.extraItem(selectedItem));
         dispatchFragment(itemDetailFragment, Constant.ITEM_DETAIL_FRAGMENT);
+        closeKeyboard();
     }
 
-    @Override
-    public void itemOrdered(ItemModel orderedItem) {
-
-    }
 
     @Override
     public void onePanelUserOrder() {
@@ -136,12 +130,12 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
     }
 
     @Override
-    public void orderUserItem(UserItemOrderModel orderedItem) {
-        if (orderedItem.bundlePart != 0) {
-
-        }
+    public void orderUserItem(ItemModel orderedItem) {
+        Factory.build.getICache().updateOrder(orderedItem);
+        updateOrderFragment();
         FragmentManager fm = getSupportFragmentManager();
         fm.popBackStack();
+        closeKeyboard();
     }
 
     @Override
@@ -201,7 +195,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
             ft.addToBackStack(null);
         }
         ft.commitAllowingStateLoss();
-
+        closeKeyboard();
 
     }
 
@@ -224,6 +218,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
                     }
                 }
+                closeKeyboard();
             }
         });
 
@@ -237,7 +232,7 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
                 public void run() {
                     FragmentManager fm = getSupportFragmentManager();
                     FragmentTransaction ft = fm.beginTransaction();
-                    ft.replace(R.id.secondContainer, getOrderFragment());
+                    ft.replace(R.id.secondContainer, getOrderFragment(), Constant.USER_ORDER_FRAGMENT);
                     ft.commit();
                 }
             });
@@ -249,27 +244,34 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         OrderFragment orderFragment = (OrderFragment) getSupportFragmentManager().findFragmentByTag(Constant.USER_ORDER_FRAGMENT);
         if (orderFragment == null) {
             orderFragment = new OrderFragment();
-            if (orderFragmentList == null) {
-                List<ItemModel> items = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    ItemModel test = new ItemModel();
-                    test.name = "zregzergzregfdsdfvsdfvssfvsfv  zrgzrg" + i;
-                    test.reference = "testetets" + i;
-                    test.price = 4894.22;
-                    test.byBundle = 12;
-                    test.ordered = new Random().nextInt() + 1;
-                    items.add(test);
-            }
-                orderFragment.setArguments(OrderFragment.extraOrderedItemList(items));
+            orderFragment.setArguments(OrderFragment.extraOrderedItemList(Factory.build.getICache().getCurrentOrder()));
 
-            } else {
-                orderFragment.setArguments(OrderFragment.extraOrderedItemList(orderFragmentList));
             }
 
-        }
+
         return orderFragment;
     }
 
+    private void updateOrderFragment() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getOrderFragment().updateOrder(Factory.build.getICache().getCurrentOrder());
+
+
+            }
+        });
+
+    }
+
+    private void closeKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+        }
+    }
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {

@@ -11,7 +11,5 @@ public interface ItemList {
 
     void itemSelected(ItemModel selectedItem);
 
-    void itemOrdered(ItemModel orderedItem);
-
     void onePanelUserOrder();
 }

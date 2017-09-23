@@ -49,7 +49,7 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
             holder.ref.setText(item.reference);
         }
         holder.ordered.setText(String.valueOf(item.ordered));
-        holder.price.setText(String.valueOf(item.price));
+        holder.price.setText(String.valueOf(countEffectivePrice(item)));
     }
 
     @Override
@@ -70,6 +70,21 @@ public class UserOrderAdapter extends RecyclerView.Adapter<UserOrderAdapter.Orde
             case R.id.editOrdered:
                 break;
         }
+    }
+
+    private double countEffectivePrice(ItemModel itemModel) {
+        double factor = itemModel.price / itemModel.byBundle;
+        return itemModel.ordered * factor;
+    }
+
+    public double countTotalPrice() {
+        double total = 0;
+        if (orderedItems != null) {
+            for (int i = 0; i < orderedItems.size(); i++) {
+                total += countEffectivePrice(orderedItems.get(i));
+            }
+        }
+        return total;
     }
 
     public static class OrderedItemVH extends RecyclerView.ViewHolder {
