@@ -76,7 +76,6 @@ public enum CacheManager implements ICache, IComCallback {
 
     public void searchResult(List<ItemModel> items) {
         ((ICacheCallBack) Utils.getActivity()).askedItemList(items);
-        ItemModel popo = items.get(0);
     }
 
 }

@@ -185,12 +185,12 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
         if (getResources().getBoolean(R.bool.twoPaneMode)) {
             dualPanelManageSecond();
             if (fragment.getPriority() == Constant.SECONDCONTAINER_PRIORITY) {
-                ft.replace(R.id.secondContainer, fragment);
+                ft.replace(R.id.secondContainer, fragment, ref);
             } else {
-                ft.replace(R.id.firstContainer, fragment);
+                ft.replace(R.id.firstContainer, fragment, ref);
             }
         } else {
-            ft.replace(R.id.firstContainer, fragment);
+            ft.replace(R.id.firstContainer, fragment, ref);
         }
         if (fm.getBackStackEntryCount() > 0) {
 
@@ -283,10 +283,22 @@ public class SUActivity extends MenuActivity implements ItemList, ItemDetails, U
 
 
     @Override
-    public void askedItemList(List<ItemModel> itemList) {
-        stopProgressBar(null);
-        ItemListFragment itemListFragment = new ItemListFragment();
-        itemListFragment.setArguments(ItemListFragment.extraItemList(itemList));
-        dispatchFragment(itemListFragment, Constant.ITEM_LIST_FRAGMENT);
+    public void askedItemList(final List<ItemModel> itemList) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                stopProgressBar(null);
+                ItemListFragment itemListFragment = (ItemListFragment) getSupportFragmentManager().findFragmentByTag(Constant.ITEM_LIST_FRAGMENT);
+                if (itemListFragment == null) {
+                    itemListFragment = new ItemListFragment();
+                    dispatchFragment(itemListFragment, Constant.ITEM_LIST_FRAGMENT);
+
+                } else {
+                    itemListFragment.updateList(itemList);
+                }
+            }
+        });
+
+
     }
 }

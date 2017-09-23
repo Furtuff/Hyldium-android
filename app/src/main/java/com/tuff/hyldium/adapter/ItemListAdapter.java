@@ -20,7 +20,7 @@ import java.util.List;
  */
 
 public class ItemListAdapter extends RecyclerView.Adapter<ItemListAdapter.ItemVH> {
-    private List<ItemModel> items;
+    public List<ItemModel> items;
 
     public ItemListAdapter(List<ItemModel> items) {
         this.items = items;
